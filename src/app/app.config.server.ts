@@ -1,14 +1,20 @@
-import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
-import { provideServerRendering } from '@angular/platform-server';
-import { provideServerRouting } from '@angular/ssr';
-import { appConfig } from './app.config';
-import { serverRoutes } from './app.routes.server';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-const serverConfig: ApplicationConfig = {
-  providers: [
-    provideServerRendering(),
-    provideServerRouting(serverRoutes)
-  ]
-};
+@Injectable({
+  providedIn: 'root'
+})
+export class RickAndMortyService {
+  private baseUrl = 'https://rickandmortyapi.com/api/character';
 
-export const config = mergeApplicationConfig(appConfig, serverConfig);
+  constructor(private http: HttpClient) { }
+
+  getAllCharacters(): Observable<any> {
+    return this.http.get(this.baseUrl);
+  }
+
+  getCharacterById(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${id}`);
+  }
+}
