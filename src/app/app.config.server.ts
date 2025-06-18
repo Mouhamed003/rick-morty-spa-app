@@ -1,20 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class RickAndMortyService {
-  private baseUrl = 'https://rickandmortyapi.com/api/character';
-
-  constructor(private http: HttpClient) { }
-
-  getAllCharacters(): Observable<any> {
-    return this.http.get(this.baseUrl);
-  }
-
-  getCharacterById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
-  }
-}
+export const config: ApplicationConfig = {
+  providers: [
+    provideRouter(routes)
+  ]
+};
